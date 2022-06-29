@@ -37,7 +37,7 @@ Error rate=100（S+D+I）/words*
 
 2.语音生成
 • Speech Production: 大脑->神经肌肉命令->发音器官运动（气流从肺部到发音器官，口鼻发出）
-
+https://img-blog.csdnimg.cn/bb4e1c5de0294aa0ba4789ac34f3dd22.png
 
 • Source-Filter Model: 发音是由信号源(声门)，经过滤波器(口腔、鼻腔、 嘴型等)产生
 • 浊音(Voiced sound): 声带振动引起，声音波形具有明显周期 性，声带震动的频率称为基音频率或基频(fundamental frequency, F0)，人们可以感受 到稳定的音高存在。
@@ -64,11 +64,12 @@ Error rate=100（S+D+I）/words*
 
 语音抄本（Phonetic Transcription）
 一段语音对应的音素列表（带或不带时间边界，时间信息由人工标注或者自动对齐获得），服务于语音识别声学建模。
+https://img-blog.csdnimg.cn/a817acc8728c4ddf86a8f8a705a62ea8.png
 可以人工分割也可机器分割。
 
 3.语音感知
 物理量与听觉的关系映射
-
+https://img-blog.csdnimg.cn/6f5a10b60de84933a08b2466771e04cb.png
 
 新概念：声压级，响度，等响度曲线
 声压级(Sound pressure level, SPL)， 单位：dB = 20 log10 P/P0(P0 为TOH)
@@ -83,7 +84,7 @@ Error rate=100（S+D+I）/words*
 衍生概念：等响度曲线(Equal loudness curves）
 即下图的蓝线，在同一条蓝线上，人主观觉得这些声音大小相同，而最高和最低则是闻阈和痛阈
 其中横轴为频率，纵轴为声压级
-
+https://img-blog.csdnimg.cn/91762932255c43f4a989bc5314b95b69.png
 
 
 音色
@@ -108,6 +109,3 @@ Error rate=100（S+D+I）/words*
 简单说就是相当于提高了闻阈，比如红线部分
 
 
-————————————————
-版权声明：本文为CSDN博主「Algorismus」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/nianmaoren2400/article/details/125466229
