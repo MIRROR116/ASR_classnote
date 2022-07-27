@@ -61,6 +61,18 @@ def backward_algorithm(O, HMM_model):
     # sum up initial states
     prob=np.sum([pi[n] * B[n][O[0]] * Beta[n][T-1] for n in range(N)])
 
+    # normal
+    # for n in range(N):
+    #     Beta[n][T-1]=1
+    # for t in range(T-2,-1,-1):
+    #     for n in range (N):
+    #         for j in range(N):
+    #             Beta[n][t] += A[n][j] * B[j][O[t+1]] * Beta[j][t+1]
+    #
+    # for n in range(N):
+    #     prob+=pi[n]*B[n][O[0]]*Beta[n][0]
+
+
     # End Assignment
     return prob
 
@@ -74,9 +86,9 @@ def Viterbi_algorithm(O, HMM_model):
         best_prob: the probability of the best state sequence
         best_path: the best state sequence
     Add:
-        result:(t2,t3,..,tT),temp array
-        Delta:((N,T)),the probability of the current sequence
-        Psi:((N,T)),the max probability sequence
+        result:(d1,d2,...,dN),temp array
+        Delta:((T,N)),the probability of the current sequence
+        Psi:((T,N)),the max probability sequence
     """
     pi, A, B = HMM_model
     T = len(O)
@@ -85,15 +97,17 @@ def Viterbi_algorithm(O, HMM_model):
     # Begin Assignment
 
     # Put Your Code Here
-    Delta = np.zeros((N, T), dtype=np.float64)
-    Psi = np.zeros((N, T), dtype=np.int32)
+    Delta = np.zeros((T,N), dtype=np.float64)
+    Psi = np.zeros((T,N), dtype=np.int32)
 
-    for n in range(N):  # initialize
-        Delta[0][n] = pi[n] * B[n][0]
-        for t in range(1, T):
-            result = [Delta[t - 1][j] * A[j][t] for j in range(N)]
-            Psi[t][n] = int(np.argmax(result))
-            Delta[t][n] = result[Psi[t][n]] * B[n][O[t]]
+    for n in range(N): # initialize
+        Delta[0][n]=pi[n]*B[n][O[0]]
+    for t in range(1,T):
+        for n in range(N):
+            result=[Delta[t-1][j]*A[j][n] for j in range(N)]
+            Psi[t][n]=int(np.argmax(result))
+            Delta[t][n]=result[Psi[t][n]]*B[n][O[t]]
+
 
     best_path = np.zeros((T), dtype=np.int32)
 
