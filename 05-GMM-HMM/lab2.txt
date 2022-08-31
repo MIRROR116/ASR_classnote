@@ -1,0 +1,220 @@
+
+########################################################################
+#   Lab 2: HMM's and You
+#   EECS E6870: Speech Recognition
+#   Due: February 26, 2016 at 6pm
+########################################################################
+
+* Name:
+
+
+########################################################################
+#   Part 1
+########################################################################
+
+* Some people put HMM output distributions on states (e.g., in the readings)
+  and some people put HMM output distributions on arcs (e.g., the slides
+  and the lab).  Are these two representations equivalent, e.g., can
+  they express the same set of models?  Can you think of any
+  advantage one representation might have over the other?
+  有些人将 HMM 输出分布放在状态上（例如，在读数中）
+   有些人将 HMM 输出分布放在弧上（例如，幻灯片和实验室）。 这两种表示是否等价，例如，可以
+   他们表达同一套模型？ 你能想到任何
+   一种表示可能比另一种表示的优势？
+
+->
+
+
+* When doing isolated word recognition, one method is to compute the
+  likelihood of the acoustic feature vectors with each word HMM separately,
+  and then to pick the word HMM with the highest likelihood.
+  Another method is to use the "one big HMM" paradigm and
+  to use the Viterbi algorithm and traceback to select the best word.
+  Are these methods equivalent (in terms of the answer selected)?
+  Why or why not?
+  在进行孤立词识别时，一种方法是计算
+   每个单词 HMM 的声学特征向量的似然度，
+   然后选择可能性最高的单词 HMM。
+   另一种方法是使用“one big HMM”范式和
+   使用维特比算法和回溯来选择最佳单词。
+   这些方法是否等效（就选择的答案而言）？
+   为什么或者为什么不？
+
+->
+
+
+* To do the dynamic programming computation correctly, one must
+  iterate through the cells in the dynamic programming chart
+  in an order that satisfies the following property:
+  when filling in a cell, all cells that the cell
+  depends on must already be filled in.  Consider the following
+  two orderings for filling the DP chart:
+  要正确进行动态规划计算，必须
+   遍历动态规划图中的单元格
+   按满足以下性质的顺序：
+   填充单元格时，该单元格的所有单元格
+   取决于必须已经填写。考虑以下
+   填写 DP 图表的两个命令：
+
+      (1) for (int frmIdx = 0; frmIdx < frmCnt; ++frmIdx)
+            for (int stateIdx = 0; stateIdx < stateCnt; ++stateIdx)
+              fill_DP_cell(frmIdx + 1, stateIdx);
+
+      (2) for (int stateIdx = 0; stateIdx < stateCnt; ++stateIdx)
+            for (int frmIdx = 0; frmIdx < frmCnt; ++frmIdx)
+              fill_DP_cell(frmIdx + 1, stateIdx);
+
+  If there are no skip arcs, which one of these orderings will always
+  produce the correct result regardless of HMM topology?  Describe
+  a situation where the other ordering can give the wrong answer.
+  If there are skip arcs, under what conditions is the good ordering
+  still valid?
+  如果没有跳过弧，这些排序中的哪一个将始终
+   无论 HMM 拓扑如何，都能产生正确的结果？ 描述
+   其他排序可能给出错误答案的情况。
+   如果有跳跃弧，什么条件下是好的排序
+   仍然有效？
+
+->
+
+
+* Create the file "p1b.out" by running:
+通过运行创建文件“p1b.out”：
+
+      lab2_p1b.sh | tee p1b.out
+
+  Submit the following files:
+  提交以下文件：
+
+      submit-e6870.py lab2 lab2_vit.C p1b.out
+
+  More generally, the usage of "submit-e6870.py" is as follows:
+  更一般地，“submit-e6870.py”的用法如下：
+
+      submit-e6870.py <lab#> <file1> <file2> <file3> ...
+
+  You can submit a file multiple times; later submissions
+  will overwrite earlier ones.  Submissions will fail
+  if the destination directory for you has not been created
+  for the given <lab#>; contact us if this happens.
+  您可以多次提交文件； 后来的提交
+   将覆盖较早的。 提交将失败
+   如果您的目标目录尚未创建
+   对于给定的 <lab#>； 如果发生这种情况，请联系我们。
+
+
+########################################################################
+#   Part 2
+########################################################################
+
+* Create the file "p2b.gmm" by running "lab2_p2b.sh".
+  Submit the following files:
+
+      submit-e6870.py lab2 gmm_util.C p2b.gmm
+
+
+* In this lab, we assumed all GMM's were composed of a single Gaussian.
+  When GMM's are composed of multiple Gaussians, each component Gaussian
+  of the mixture is updated in essentially the same way as before,
+  except we need to figure out the correct posterior counts to use.
+  Explain how to compute the posterior count of each component Gaussian
+  given the posterior count of the entire GMM.
+  在本实验中，我们假设所有 GMM 均由单个高斯函数组成。
+   当 GMM 由多个高斯组成时，每个分量高斯
+   混合物的更新方式与以前基本相同，
+   除了我们需要弄清楚要使用的正确后验计数。
+   解释如何计算每个分量高斯的后验计数
+   给定整个 GMM 的后验计数。
+
+->
+
+
+* Given the total posterior counts of each Gaussian in a GMM, explain
+  how to reestimate the mixture weights of each Gaussian in that GMM.
+  给定 GMM 中每个高斯的总后验计数，解释
+   如何重新估计该 GMM 中每个高斯的混合权重。
+
+->
+
+
+########################################################################
+#   Part 3
+########################################################################
+
+* Create the file "p3c.out" containing the output of
+  running "lab2_p3c.sh" (i.e., run "lab2_p3c.sh | tee p3c.out").
+  Submit the following files:
+
+      submit-e6870.py lab2 lab2_fb.C p3c.out
+
+
+########################################################################
+#   Part 4
+########################################################################
+
+* What word-error rates did you find by running "lab2_p4a.sh"?
+通过运行“lab2_p4a.sh”，您发现了哪些单词错误率？
+
+->
+
+
+* What word-error rates did you find by running "lab2_p4b.sh"?
+通过运行“lab2_p4b.sh”，您发现了哪些单词错误率？
+
+->
+
+
+* What word-error rates did you find by running "lab2_p4c.sh"?
+通过运行“lab2_p4c.sh”，您发现了哪些单词错误率？
+
+->
+
+
+* What did you learn in this part?
+你在这部分学到了什么？
+
+->
+
+
+* If an HMM were a fruit, what type of fruit would it be?
+如果 HMM 是一种水果，它会是什么类型的水果？
+
+->
+
+
+########################################################################
+#   Wrap Up
+########################################################################
+
+After filling in all of the fields in this file, submit this file
+using the following command:
+填写完此文件中的所有字段后，提交此文件
+使用以下命令：
+
+    submit-e6870.py lab2 lab2.txt
+
+The timestamp on the last submission of this file (if you submit
+multiple times) will be the one used to determine your official
+submission time (e.g., for figuring out if you handed in the
+assignment on time).
+上次提交此文件的时间戳（如果您提交多次）将用于确定您的官方
+提交时间（例如，用于确定您是否提交了按时分配）。
+
+To verify whether your files were submitted correctly, you can
+use the command:
+要验证您的文件是否已正确提交，您可以
+使用命令：
+
+    check-e6870.py lab2
+
+This will list all of the files in your submission directory,
+along with file sizes and submission times.
+这将列出您提交目录中的所有文件，
+以及文件大小和提交时间。
+
+
+########################################################################
+#
+########################################################################
+
+
